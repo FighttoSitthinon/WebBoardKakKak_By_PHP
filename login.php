@@ -4,7 +4,7 @@ if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
     header('Location: index.php');
     die();
 }
-//include 'verify.php';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,7 +48,7 @@ if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
                 <div class="col-4">
                     <?php
                     if (isset($_SESSION['error'])) {
-                        echo '<div class="alert alert-danger" role="alert">ชื่อบัญชีหรือรหัสผ่านไม่ถูกต้อง</div>';
+                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_SESSION['error'].'</div>';
                     }
                     ?>
                     <div class="card border-info" style="max-width: 30rem;">

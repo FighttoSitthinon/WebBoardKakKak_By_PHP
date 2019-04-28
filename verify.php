@@ -9,15 +9,22 @@
     }
 
     function verify(){
+        include 'connect.php';
+
         $id = $_POST['id'];
         $pass = $_POST['password'];
         $msg = "";
+
+        $sql = "SELECT password, role FROM user WHERE login = '".$_POST['id']."' LIMIT 1";
+        $result = mysqli_query($conn, $sql);
+        $resp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
         if($id =='admin' && $pass =='ad1234'){
             $msg = "ยินดีต้อนรับ ADMIN";
             $_SESSION["username"] = $id;
             $_SESSION["role"] = "a";
             $_SESSION["id"] = session_id();
-            session_unset($_SESSION['error']);
+            unset($_SESSION['error']);
             header('Location: index.php');
             die();
         }elseif($id =='member' && $pass =='mem1234'){
@@ -25,7 +32,15 @@
             $_SESSION["username"] = $id;
             $_SESSION["role"] = "m";
             $_SESSION["id"] = session_id();
-            session_unset($_SESSION['error']);
+            unset($_SESSION['error']);
+            header('Location: index.php');
+            die();
+        }elseif(isset($resp['password']) && isset($resp['role']) && $resp['password'] == $pass){
+            $msg = "ยินดีต้อนรับ".$id;
+            $_SESSION["username"] = $id;
+            $_SESSION["role"] = $resp['role'];
+            $_SESSION["id"] = session_id();
+            unset($_SESSION['error']);
             header('Location: index.php');
             die();
         }else{

@@ -67,9 +67,9 @@ if (isset($_POST['name']) && isset($_POST['username'])  && isset($_POST['passwor
         <?php
         if (isset($event)) {
             if ($event == 0) {
-                echo "<div class='alert alert-success'><strong>สำเร็จ!</strong> " . $msg[$event] . "</div>";
+                echo "<div class='alert alert-success alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>สำเร็จ!</strong> " . $msg[$event] . "</div>";
             } else {
-                echo "<div class='alert alert-danger'><strong>เกิดข้อผิดพลาด!</strong> " . $msg[$event] . "</div>";
+                echo "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>เกิดข้อผิดพลาด!</strong> " . $msg[$event] . "</div>";
             }
         }
         ?>
