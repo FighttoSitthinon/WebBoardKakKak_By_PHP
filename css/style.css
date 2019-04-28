@@ -1,0 +1,15 @@
+h1 {
+    text-align: center;
+}
+
+div {
+    font-size: 17px;
+}
+
+div.row {
+    padding-top: 15px;
+}
+
+li {
+    padding-top: 15px;
+}

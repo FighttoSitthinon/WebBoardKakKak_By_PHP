@@ -8,7 +8,7 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
@@ -17,17 +17,7 @@ session_start();
     <title>Index</title>
 </head>
 <style>
-    h1 {
-        text-align: center;
-    }
 
-    div {
-        font-size: 17px;
-    }
-
-    li {
-        padding-top: 15px;
-    }
 </style>
 
 <body>
@@ -36,7 +26,6 @@ session_start();
         <hr>
         <h1>Hello KakKak</h1>
         <hr>
-
         <div>
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <h2><a class="navbar-brand" href="#">Kakkak</a></h2>
@@ -54,8 +43,8 @@ session_start();
 
                             <?php
                             if (isset($_SESSION['username'])) {
-                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>user: " . $_SESSION['username'];
-                                }
+                                echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>user: " . $_SESSION['username'];
+                            }
                             ?>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
@@ -100,8 +89,8 @@ session_start();
                 <div class="col-6" style="text-align:right;">
                     <?php
                     if (isset($_SESSION['username'])) {
-                            echo "<p><button class='btn btn-success'><i class='fas fa-plus'></i><a style='color:white' href='newpost.php'>  สร้างกระทู้ใหม่</a></button></p>";
-                        }
+                        echo "<p><button class='btn btn-success'><i class='fas fa-plus'></i><a style='color:white' href='newpost.php'>  สร้างกระทู้ใหม่</a></button></p>";
+                    }
 
                     ?>
                 </div>
