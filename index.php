@@ -107,10 +107,10 @@ session_start();
                         <?php
                         if (isset($_SESSION['role']) && $_SESSION['role'] == 'a') {
                             for ($i = 1; $i <= 5; $i++)
-                                echo "<tr><td><a href='../work/post.php?postNumber={$i}'>กระทู้ที่ " . $i . "</a></td> <td><a  href='delete.php?postNumber={$i}'><i class='fas fa-trash-alt' style='color:red'></i> </a></td></tr>";
+                                echo "<tr><td><a href='post.php?postNumber={$i}'>กระทู้ที่ " . $i . "</a></td> <td><a  href='delete.php?postNumber={$i}'><i class='fas fa-trash-alt' style='color:red'></i> </a></td></tr>";
                         } else {
                             for ($i = 1; $i <= 5; $i++)
-                                echo "<tr><td><a href='../work/post.php?postNumber={$i}'>กระทู้ที่ " . $i . "</a></td></tr>";
+                                echo "<tr><td><a href='post.php?postNumber={$i}'>กระทู้ที่ " . $i . "</a></td></tr>";
                         }
                         ?>
                     </tbody>

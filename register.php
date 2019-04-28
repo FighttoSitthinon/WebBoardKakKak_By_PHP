@@ -1,9 +1,25 @@
 <?php
 session_start();
+
+include 'register_save.php';
+
 if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
     header('Location: index.php');
     die();
 }
+
+$event = null;
+$msg = [
+    0 => "สมัครผู้ใช้งานใหม่เสร็จสิ้น",
+    1 => "เกิดข้อผิดพลาดในการสมัคร",
+    2 => "ชื่อผู้ใช้นี้มีผู้ใช้งานแล้ว",
+    3 => "โปรดกรอกข้อมูลให้ครบถ้วน"
+];
+
+if (isset($_POST['name']) && isset($_POST['username'])  && isset($_POST['password'])  && isset($_POST['email'])) {
+    $event = register($_POST['username'], $_POST['password'], $_POST['name'], $_POST['gender'], $_POST['email']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,43 +54,67 @@ if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
                         <a class="nav-link" href="index.php"><i class='fas fa-home'></i> Home <span class="sr-only">(current)</span></a>
                     </div>
                 </ul>
+                <div class="nav-item">
+                    <?php
+                    if (!isset($_SESSION["id"])) {
+                        echo "<a class='nav-link' href='login.php'><i class='fas fa-edit' ></i> เข้าสู่ระบบ</a>";
+                    }
+                    ?>
+                </div>
             </div>
         </nav>
         <hr>
-
+        <?php
+        if (isset($event)) {
+            if ($event == 0) {
+                echo "<div class='alert alert-success'><strong>สำเร็จ!</strong> " . $msg[$event] . "</div>";
+            } else {
+                echo "<div class='alert alert-danger'><strong>เกิดข้อผิดพลาด!</strong> " . $msg[$event] . "</div>";
+            }
+        }
+        ?>
         <div class="card border-primary" style="margin-left:20%;margin-right:20%;">
             <div class="card-body">
                 <h4 class="card-header" style="text-align:center"> สมัครสมาชิก</h4>
                 <div class="center">
-                    <div class="row">
-                        <div class="col-md-4">ID</div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="" id="">
+                    <form action="register.php" method="post">
+                        <div class="row">
+                            <div class="col-md-4">ID</div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="username" id="username">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">Password</div>
-                        <div class="col-md-8">
-                            <input type="password" class="form-control" name="" id="">
+                        <div class="row">
+                            <div class="col-md-4">Password</div>
+                            <div class="col-md-8">
+                                <input type="password" class="form-control" name="password" id="password">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">Name</div>
-                        <div class="col-md-8">
-                            <input type="text" class="form-control" name="" id="">
+                        <div class="row">
+                            <div class="col-md-4">Name</div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control" name="name" id="name">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">Sex</div>
-                        <div class="col-md-8">
-                            <label class="radio-inline"><input type="radio" name="optradio" checked> Male</label>
-                            <label class="radio-inline"><input type="radio" name="optradio"> Female</label>
-                            <label class="radio-inline"><input type="radio" name="optradio"> Other</label>
+                        <div class="row">
+                            <div class="col-md-4">Sex</div>
+                            <div class="col-md-8">
+                                <label class="radio-inline"><input type="radio" name="gender" value="m" checked> Male</label>
+                                <label class="radio-inline"><input type="radio" name="gender" value="f"> Female</label>
+                                <label class="radio-inline"><input type="radio" name="gender" value="o"> Other</label>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row" style="text-align: center; padding-left:15px; padding-right:15px;">
-                        <input type="submit" class="btn btn-primary btn-block" value="Register">
-                    </div>
+                        <div class="row">
+                            <div class="col-md-4">Email</div>
+                            <div class="col-md-8">
+                                <input type="email" class="form-control" name="email" id="email">
+                            </div>
+                        </div>
+                        <div class="row" style="text-align: center; padding-left:15px; padding-right:15px;">
+                            <input type="submit" class="btn btn-primary btn-block" value="Register">
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>

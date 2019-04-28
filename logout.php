@@ -6,6 +6,7 @@
        // echo "case 01";
         session_unset();
         session_destroy();
+        header("refresh: 1; url=index.php");
     }else{
         //echo "case 02";
         header('Location: login.php');
@@ -36,7 +37,8 @@
         <div class="col-sm-4"></div>
         <div class="col-sm-4">
             <div class="row" style="text-align: center;">
-                <?php echo "<h3>ออกจากระบบเสร็จสิ้น</h3>";?>
+                <h3>ออกจากระบบเสร็จสิ้น</h3> <br>
+                <p>หากไม่มีการเปลี่ยนหน้า กรุณากดปุ่ม </p>
             </div>
             <div class="row" style="text-align: center;">
                 <p><a href="index.php">กลับหน้าหลัก</a></p>

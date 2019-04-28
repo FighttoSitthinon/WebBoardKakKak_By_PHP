@@ -54,7 +54,7 @@ if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
                     <div class="card border-info" style="max-width: 30rem;">
                         <div class="card-body">
                             <h2 class="card-header"> Login</h2>
-                            <form action="../work/verify.php" method="post">
+                            <form action="verify.php" method="post">
                                 <div class="row">
                                     <label class="col-md-4" for="id">Username</label>
                                     <div class="col-md-8">
