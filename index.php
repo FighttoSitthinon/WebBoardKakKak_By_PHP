@@ -119,17 +119,38 @@ $resultPost = mysqli_query($conn, $sqlPost);
                     </thead>
                     <tbody>
                         <?php
-                       
+
                         if (isset($_SESSION['role']) && $_SESSION['role'] == 'a') {
                             while ($row = mysqli_fetch_array($resultPost, MYSQLI_ASSOC)) {
-                                echo "<tr><td>[ " . $row['cat_name']. " ]&nbsp&nbsp <a href='post.php?postNumber={$row['id']}'> " . $row['title'] . "</a><br> " . $row['user_name'] . " - " . $row['post_date'] . "</td> <td><a  href='delete.php?postNumber={$row['id']}'><i class='fas fa-trash-alt' style='color:red'></i> </a></td></tr>";
-                            }
-                        } else {
-                            while ($row = mysqli_fetch_array($resultPost, MYSQLI_ASSOC)) {
-                                echo "<tr><td>[ " . $row['cat_name']. " ]&nbsp&nbsp <a href='post.php?postNumber={$row['id']}'> " . $row['title'] . "</a><br> " . $row['user_name'] . " - " . $row['post_date'] . "</td> </tr>";
-                            }
+                                //Admin and permission delete post
+                                echo    "<tr><td>[ " . $row['cat_name'] . " ]&nbsp&nbsp <a href='post.php?postNumber={$row['id']}'> " . $row['title'] . "</a><br> " . $row['user_name'] . " - " . $row['post_date'] . "</td> <td>
+                                        <a href='#' data-href='delete.php?postNumber={$row['id']}' data-toggle='modal' data-target='#confirm-delete'><i class='fas fa-trash-alt' style='color:red'></i> </a></td></tr>";
+                                ?>
+                                <!--Delete Modal-->
+                                <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                Delete post?
+                                            </div>
+                                            <div class="modal-body">
+                                                คุณต้องการลบกระทู้นี้ใช่หรือไม่
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">ยกเลิก</button>
+                                                <a class="btn btn-danger btn-ok">ลบ</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                    <?php
                         }
-                        ?>
+                    } else {
+                        while ($row = mysqli_fetch_array($resultPost, MYSQLI_ASSOC)) {
+                            echo "<tr><td>[ " . $row['cat_name'] . " ]&nbsp&nbsp <a href='post.php?postNumber={$row['id']}'> " . $row['title'] . "</a><br> " . $row['user_name'] . " - " . $row['post_date'] . "</td> </tr>";
+                        }
+                    }
+                    ?>
                     </tbody>
 
                 </table>
@@ -151,5 +172,10 @@ $resultPost = mysqli_query($conn, $sqlPost);
         </div>
     </div>
 </body>
+<script>
+    $('#confirm-delete').on('show.bs.modal', function(e) {
+        $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+    });
+</script>
 
 </html>
