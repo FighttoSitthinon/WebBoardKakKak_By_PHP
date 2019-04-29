@@ -1,9 +1,23 @@
 <?php
 session_start();
+include 'newpost_save.php';
+
 if (!isset($_SESSION['id']) && $_SESSION['id'] != session_id()) {
     header('Location: login.php');
     die();
 }
+
+$event = null;
+$msg = [
+    1 => "เกิดข้อผิดพลาดบางอย่างระหว่างส่งข้อมูล",
+    2 => "กรุณากรอกข้อมูลให้ครบถ้วน",
+    3 => "กรุณาทำการเข้าสู่ระบบก่อนส่งข้อมูล"
+];
+
+if (isset($_POST['title']) && isset($_POST['content']) && isset($_POST['category'])) {
+    $event = newpost($_POST['title'], $_POST['content'], $_POST['category']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,35 +81,50 @@ if (!isset($_SESSION['id']) && $_SESSION['id'] != session_id()) {
         </nav>
         <hr>
         <div class="center">
+            <?php
+            if (isset($event)) {
+                if ($event == 0) {
+                    //success
+                    header('Location: index.php');
+                    die();
+                    echo 'Hi';
+                } else {
+                    //error
+                    echo "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>เกิดข้อผิดพลาด!</strong> " . $msg[$event] . "</div>";
+                }
+            }
+            ?>
             <div class="card border-info" style="margin-left:15%;margin-right:15%;">
                 <div class="card-body">
                     <h2 class="card-header" style="text-align:center"> ตั้งกระทู้ใหม่</h2>
-                    <div class="center">
-                        <div class="row">
-                            <div class="col-sm-4">
-                                <label for="">หมวดหมู่: </label>
+                    <form action="newpost.php" method="post">
+                        <div class="center">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <label for="">หมวดหมู่: </label>
+                                </div>
+                                <div class="col-sm-8">
+                                    <select name="category" id="category" class="form-control">
+                                        <option value="" disabled selected>--ทั้งหมด--</option>
+                                        <option value="0">เรื่องทั่วไป</option>
+                                        <option value="1">เรื่องเรียน</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="col-sm-8">
-                                <select name="group" id="" class="form-control">
-                                    <option value="1" disabled selected>--ทั้งหมด--</option>
-                                    <option value="2">เรื่องทั่วไป</option>
-                                    <option value="3">เรื่องเรียน</option>
-                                </select>
-                            </div>
+                            <form class="form-group">
+                                <label for="topic">หัวข้อ</label>
+                                <input class="form-control" type="text" name="title" id="title" placeholder="หัวข้อ....">
+                                <br>
+                                <label for="content">เนื้อหา:</label>
+                                <textarea class="form-control" rows="5" id="content" name="content" placeholder="เนื้อหา.."></textarea>
+                                <div class="row" style="text-align: center; padding-left:15px; padding-right:15px;">
+                                    <button type="submit" class="btn btn-outline-info btn-block">
+                                        <i class="fas fa-paper-plane"></i> Save
+                                    </button>
+                                </div>
+                            </form>
                         </div>
-                        <form class="form-group">
-                            <label for="topic">Topic</label>
-                            <input class="form-control" type="text" name="topic" id="topic" placeholder="Topic....">
-                            <br>
-                            <label for="content">Content:</label>
-                            <textarea class="form-control" rows="5" id="content" placeholder="Enter the content right here..."></textarea>
-                            <div class="row" style="text-align: center; padding-left:15px; padding-right:15px;">
-                                <button type="submit" class="btn btn-outline-info btn-block">
-                                    <i class="fas fa-paper-plane"></i> Save
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="center" style="text-align: center;">
