@@ -1,6 +1,6 @@
 <?php
     session_start();
-    if(!isset($_SESSION['role']) || $_SESSION['role'] != 'a'){
+    if(!isset($_SESSION['role']) || $_SESSION['role'] != 'a' || !isset($_GET['postNumber']) || $_GET['postNumber'] == ''){
         header('Location: index.php');
         die();
     }

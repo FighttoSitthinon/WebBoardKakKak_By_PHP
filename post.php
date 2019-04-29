@@ -1,5 +1,21 @@
 <?php
 session_start();
+
+if (!isset($_GET['postNumber']) || $_GET['postNumber'] == '') {
+    header('Location: index.php');
+    die();
+}
+
+include 'connect.php';
+
+$sql = "SELECT post.id, post.title, post.content, post.post_date, category.name AS cat_name, user.name AS user_name FROM post 
+            JOIN category ON post.cat_id = category.id 
+            JOIN user ON post.user_id = user.id
+            WHERE post.id = " . $_GET['postNumber'];
+$result = mysqli_query($conn, $sql);
+$resp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -36,7 +52,6 @@ session_start();
                 </ul>
                 <ul class="navbar-nav">
                     <div class="nav-item dropdown">
-
                         <?php
                         if (isset($_SESSION['username'])) {
                             echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>user: " . $_SESSION['username'];
@@ -65,12 +80,23 @@ session_start();
         <hr>
         <div class="center">
             <div class="container">
-                <div style="text-align:center;">
+                <div style="padding-left:10%;padding-right:10%;">
+                    <h2>
+                        <?php echo "[ " . $resp['cat_name'] . " ] " . $resp['title']; ?>
+                    </h2>
                     <p>
-                        <b>ต้องการเปิดดูกระทู้หมายเลข <?php echo '' . $_GET['postNumber'] ?></b>
+                        <b>กระทู้หมายเลข <?php echo '' . $_GET['postNumber'] ?></b>
                     </p>
-                    <div style="padding-top:15px; padding-bottom:15px;">
-                        ....Content.......
+                    <hr>
+                    <div>
+                        <div class="jumbotron">
+                            <?php echo $resp['content']; ?>
+                        </div>
+                    </div>
+                    <div style="font-size: 15px; margin-bottom: 30px; padding-left:10px;">
+                        <i>
+                            <?php echo "Create by " . $resp['user_name'] . " - " . $resp['post_date']; ?>
+                        </i>
                     </div>
                 </div>
             </div>
