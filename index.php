@@ -1,5 +1,16 @@
 <?php
 session_start();
+include 'connect.php';
+
+$sqlCat = "SELECT * FROM category";
+$resultCat = mysqli_query($conn, $sqlCat);
+
+$sqlPost = "SELECT post.id, post.title, post.post_date, category.name AS cat_name, user.name AS user_name FROM post 
+            JOIN category ON post.cat_id = category.id 
+            JOIN user ON post.user_id = user.id
+            ORDER BY post.post_date DESC";
+$resultPost = mysqli_query($conn, $sqlPost);
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -81,9 +92,12 @@ session_start();
                 <div class="col-2">หมวดหมู่: </div>
                 <div class="col-4">
                     <select name="group" id="" class="form-control">
-                        <option value="1">--ทั้งหมด--</option>
-                        <option value="2">เรื่องทั่วไป</option>
-                        <option value="3">เรื่องเรียน</option>
+                        <option value="">--ทั้งหมด--</option>
+                        <?php
+                        while ($row = mysqli_fetch_array($resultCat, MYSQLI_ASSOC)) {
+                            echo "<option value=" . $row['id'] . ">" . $row['name'] . "</option>";
+                        }
+                        ?>
                     </select>
                 </div>
                 <div class="col-6" style="text-align:right;">
@@ -105,12 +119,15 @@ session_start();
                     </thead>
                     <tbody>
                         <?php
+                       
                         if (isset($_SESSION['role']) && $_SESSION['role'] == 'a') {
-                            for ($i = 1; $i <= 5; $i++)
-                                echo "<tr><td><a href='post.php?postNumber={$i}'>กระทู้ที่ " . $i . "</a></td> <td><a  href='delete.php?postNumber={$i}'><i class='fas fa-trash-alt' style='color:red'></i> </a></td></tr>";
+                            while ($row = mysqli_fetch_array($resultPost, MYSQLI_ASSOC)) {
+                                echo "<tr><td>[ " . $row['cat_name']. " ]&nbsp&nbsp <a href='post.php?postNumber={$row['id']}'> " . $row['title'] . "</a><br> " . $row['user_name'] . " - " . $row['post_date'] . "</td> <td><a  href='delete.php?postNumber={$row['id']}'><i class='fas fa-trash-alt' style='color:red'></i> </a></td></tr>";
+                            }
                         } else {
-                            for ($i = 1; $i <= 5; $i++)
-                                echo "<tr><td><a href='post.php?postNumber={$i}'>กระทู้ที่ " . $i . "</a></td></tr>";
+                            while ($row = mysqli_fetch_array($resultPost, MYSQLI_ASSOC)) {
+                                echo "<tr><td>[ " . $row['cat_name']. " ]&nbsp&nbsp <a href='post.php?postNumber={$row['id']}'> " . $row['title'] . "</a><br> " . $row['user_name'] . " - " . $row['post_date'] . "</td> </tr>";
+                            }
                         }
                         ?>
                     </tbody>

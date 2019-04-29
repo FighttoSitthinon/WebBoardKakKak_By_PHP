@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'newpost_save.php';
+include 'connect.php';
 
 if (!isset($_SESSION['id']) && $_SESSION['id'] != session_id()) {
     header('Location: login.php');
@@ -13,6 +14,9 @@ $msg = [
     2 => "กรุณากรอกข้อมูลให้ครบถ้วน",
     3 => "กรุณาทำการเข้าสู่ระบบก่อนส่งข้อมูล"
 ];
+
+$sqlCat = "SELECT * FROM category";
+$resultCat = mysqli_query($conn, $sqlCat);
 
 if (isset($_POST['title']) && isset($_POST['content']) && isset($_POST['category'])) {
     $event = newpost($_POST['title'], $_POST['content'], $_POST['category']);
@@ -105,9 +109,12 @@ if (isset($_POST['title']) && isset($_POST['content']) && isset($_POST['category
                                 </div>
                                 <div class="col-sm-8">
                                     <select name="category" id="category" class="form-control">
-                                        <option value="" disabled selected>--ทั้งหมด--</option>
-                                        <option value="0">เรื่องทั่วไป</option>
-                                        <option value="1">เรื่องเรียน</option>
+                                        <option value="">--ทั้งหมด--</option>
+                                        <?php
+                                        while ($row = mysqli_fetch_array($resultCat, MYSQLI_ASSOC)) {
+                                            echo "<option value=" . $row['id'] . ">" . $row['name'] . "</option>";
+                                        }
+                                        ?>
                                     </select>
                                 </div>
                             </div>
