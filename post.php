@@ -1,19 +1,28 @@
 <?php
 session_start();
+include 'comment_save.php';
+include 'connect.php';
+
 
 if (!isset($_GET['postNumber']) || $_GET['postNumber'] == '') {
     header('Location: index.php');
     die();
 }
 
-include 'connect.php';
+$postNumber = $_GET['postNumber'];
 
-$sql = "SELECT post.id, post.title, post.content, post.post_date, category.name AS cat_name, user.name AS user_name FROM post 
+$sql =  "SELECT post.id, post.title, post.content, post.post_date, category.name AS cat_name, user.name AS user_name FROM post 
             JOIN category ON post.cat_id = category.id 
             JOIN user ON post.user_id = user.id
-            WHERE post.id = " . $_GET['postNumber'];
+            WHERE post.id = " . $postNumber;
 $result = mysqli_query($conn, $sql);
 $resp = mysqli_fetch_array($result, MYSQLI_ASSOC);
+
+$sqlComment =  "SELECT comment.content, comment.post_date, user.name AS user_name FROM comment 
+                JOIN user ON user.id = comment.user_id
+                WHERE comment.post_id = " . $postNumber . "
+                ORDER BY post_date;";
+$resultComment = mysqli_query($conn, $sqlComment);
 
 
 ?>
@@ -98,24 +107,83 @@ $resp = mysqli_fetch_array($result, MYSQLI_ASSOC);
                             <?php echo "Create by " . $resp['user_name'] . " - " . $resp['post_date']; ?>
                         </i>
                     </div>
+                    <hr>
                 </div>
             </div>
+            <br>
+            <h3 style="margin-left:15%;"><i>ความคิดเห็น</i></h3>
+            <br>
+            <div style="margin-left:15%;margin-right:15%;">
+
+                <?php
+                if (($row = mysqli_fetch_array($resultComment, MYSQLI_ASSOC)) == null) { 
+                    echo    "<i>ยังไม่มีการแสดงความคิดเห็น</i>";    
+
+                } else {
+                    while ($row = mysqli_fetch_array($resultComment, MYSQLI_ASSOC)) {
+                        ?>
+                        <div class="card" style="padding-bottom:10px;">
+                            <div class="row">
+                                <div class="col-3" style="text-align:center;">
+                                    <img style="margin:5px;" width="100" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                </div>
+                                <div class="col-9">
+                                    <div class="card-body">
+                                        <strong class="card-title"><?php echo $row['user_name'] ?> </strong>
+                                        <p class="card-text"><?php echo $row['content']; ?></p>
+                                        <i style="font-size: 15px"><?php echo "ความคิดเห็นเมื่อ : " . $row['post_date'] ?></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                    <?php
+                }
+            }
+
+
+            ?>
+            </div>
+            <br>
+            <hr>
+
             <div class="card border-success" style="margin-left:20%;margin-right:20%;">
                 <div class="card-body">
                     <h4 class="card-header" style="text-align:center"> แสดงความคิดเห็น</h4>
                     <div class="center">
-                        <form class="form-group">
+                        <div class="form-group">
                             <label for="comment">Comment:</label>
-                            <textarea class="form-control" rows="5" id="comment" placeholder="Comment right here..."></textarea>
-                            <div class="row" style="text-align: center; padding-left:15px; padding-right:15px;">
-                                <button type="submit" class="btn btn-outline-success btn-block">
-                                    <i class="fas fa-paper-plane"></i> Send a message
-                                </button>
-                            </div>
-                        </form>
+                            <?php
+                            if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
+                                ?>
+                                <form action="comment_save.php" method="post">
+                                    <input type="hidden" name="postNumber" value="<?php echo $postNumber; ?>">
+                                    <textarea class="form-control" rows="5" name="comment" placeholder="Comment right here..."></textarea>
+                                    <div class="row" style="text-align: center; padding-left:15px; padding-right:15px;">
+                                        <button type="submit" class="btn btn-outline-success btn-block">
+                                            <i class="fas fa-paper-plane"></i> Send a message
+                                        </button>
+                                    </div>
+                                </form>
+                            <?php
+                        } else {
+                            ?>
+                                <textarea readonly class="form-control" rows="5" placeholder="Comment right here..."></textarea>
+                                <div class="row" style="text-align: center; padding-left:15px; padding-right:15px;">
+                                    <button disabled type="submit" class="btn btn-outline-success btn-block">
+                                        <i class="fas fa-paper-plane"></i> Send a message
+                                    </button>
+                                </div>
+                                <br>
+                                <p style="text-align: center;">กรุณา <a href="login.php">เข้าสู่ระบบ</a> เพื่อทำการแสดงความคิดเห็น</p>
+                            <?php
+                        }
+                        ?>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
         <div class="center" style="text-align: center;">
             <br>
