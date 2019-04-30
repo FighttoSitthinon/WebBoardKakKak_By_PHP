@@ -20,7 +20,7 @@ $resp = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
 $sqlComment =  "SELECT comment.content, comment.post_date, user.name AS user_name FROM comment 
                 JOIN user ON user.id = comment.user_id
-                WHERE comment.post_id = " . $postNumber . "
+                WHERE comment.post_id = '" . $postNumber . "'
                 ORDER BY post_date;";
 $resultComment = mysqli_query($conn, $sqlComment);
 
@@ -122,6 +122,7 @@ $resultComment = mysqli_query($conn, $sqlComment);
                 } else {
                     while ($row = mysqli_fetch_array($resultComment, MYSQLI_ASSOC)) {
                         ?>
+
                         <div class="card" style="padding-bottom:10px;">
                             <div class="row">
                                 <div class="col-3" style="text-align:center;">
@@ -136,6 +137,7 @@ $resultComment = mysqli_query($conn, $sqlComment);
                                 </div>
                             </div>
                         </div>
+
                         <br>
                     <?php
                 }
