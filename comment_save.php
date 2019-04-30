@@ -32,7 +32,7 @@ function comment($comment, $post_id){
                 header('Location: post.php?postNumber='.$_POST['postNumber']);
                 die();
             }else{
-                mysqli_error($conn);
+                echo mysqli_error($conn);
                 $event = 1; // Error
             }
         }else{

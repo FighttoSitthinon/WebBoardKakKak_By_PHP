@@ -30,7 +30,7 @@ function register($login, $password, $name, $gender, $email){
                 //exit(0);
                 $event = 0; // สมัครผู้ใช้งานใหม่เสร็จสิ้น
             }else{
-                mysqli_error($conn);
+                echo mysqli_error($conn);
                 $event = 1; // Error
             }
         }else{

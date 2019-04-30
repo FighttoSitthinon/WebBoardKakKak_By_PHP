@@ -21,7 +21,7 @@ function newpost($title, $content, $category ){
             if($result){
                 $event = 0; // Success
             }else{
-                mysqli_error($conn);
+                echo mysqli_error($conn);
                 $event = 1; // Error
             }
         }else{

@@ -7,6 +7,11 @@
 
     include 'connect.php';
 
+    //Delete all comment in this post
+    $sql = "DELETE FROM comment WHERE post_id = ".$_GET['postNumber'];
+    $result = mysqli_query($conn, $sql);
+
+    //Delete post
     $sql = "DELETE FROM post WHERE id = ".$_GET['postNumber'];
     $result = mysqli_query($conn, $sql);
      
@@ -16,7 +21,7 @@
         die();
     }else{
         //error
-        mysqli_error($conn);
+        echo mysqli_error($conn);
     }
     
 

@@ -5,10 +5,21 @@ include 'connect.php';
 $sqlCat = "SELECT * FROM category";
 $resultCat = mysqli_query($conn, $sqlCat);
 
-$sqlPost = "SELECT post.id, post.title, post.post_date, category.name AS cat_name, user.name AS user_name FROM post 
-            JOIN category ON post.cat_id = category.id 
-            JOIN user ON post.user_id = user.id
-            ORDER BY post.post_date DESC";
+//echo $_POST['selected_cat'];
+
+if (isset($_POST['selected_cat']) && $_POST['selected_cat'] > 0) {
+    $sqlPost = "SELECT post.id, post.title, post.post_date, category.name AS cat_name, user.name AS user_name FROM post 
+                JOIN category ON post.cat_id = category.id 
+                JOIN user ON post.user_id = user.id
+                WHERE category.id = '{$_POST['selected_cat']}'
+                ORDER BY post.post_date DESC";
+}else{
+    $sqlPost = "SELECT post.id, post.title, post.post_date, category.name AS cat_name, user.name AS user_name FROM post 
+                JOIN category ON post.cat_id = category.id 
+                JOIN user ON post.user_id = user.id
+                ORDER BY post.post_date DESC";
+}
+
 $resultPost = mysqli_query($conn, $sqlPost);
 
 ?>
@@ -91,14 +102,16 @@ $resultPost = mysqli_query($conn, $sqlPost);
             <div class="row">
                 <div class="col-2">หมวดหมู่: </div>
                 <div class="col-4">
-                    <select name="group" id="" class="form-control">
-                        <option value="">--ทั้งหมด--</option>
-                        <?php
-                        while ($row = mysqli_fetch_array($resultCat, MYSQLI_ASSOC)) {
-                            echo "<option value=" . $row['id'] . ">" . $row['name'] . "</option>";
-                        }
-                        ?>
-                    </select>
+                    <form action="index.php" method="post" name="_selected_cat">
+                        <select name="selected_cat" id="selected_cat" class="form-control" onchange="document._selected_cat.submit();">
+                            <option value="">--ทั้งหมด--</option>
+                            <?php
+                            while ($row = mysqli_fetch_array($resultCat, MYSQLI_ASSOC)) {
+                                echo "<option value=" . $row['id'] . ">" . $row['name'] . "</option>";
+                            }
+                            ?>
+                        </select>
+                    </form>
                 </div>
                 <div class="col-6" style="text-align:right;">
                     <?php
@@ -143,7 +156,7 @@ $resultPost = mysqli_query($conn, $sqlPost);
                                         </div>
                                     </div>
                                 </div>
-                    <?php
+                            <?php
                         }
                     } else {
                         while ($row = mysqli_fetch_array($resultPost, MYSQLI_ASSOC)) {
