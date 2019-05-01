@@ -24,6 +24,9 @@ $sqlComment =  "SELECT comment.content, comment.post_date, user.name AS user_nam
                 ORDER BY post_date;";
 $resultComment = mysqli_query($conn, $sqlComment);
 
+/*while($row = mysqli_fetch_array($resultComment, MYSQLI_ASSOC)){
+    echo $row['content']."<br>";
+}*/
 
 ?>
 <!DOCTYPE html>
@@ -114,13 +117,11 @@ $resultComment = mysqli_query($conn, $sqlComment);
             <h3 style="margin-left:15%;"><i>ความคิดเห็น</i></h3>
             <br>
             <div style="margin-left:15%;margin-right:15%;">
-
                 <?php
-                if (($row = mysqli_fetch_array($resultComment, MYSQLI_ASSOC)) == null) { 
-                    echo    "<i>ยังไม่มีการแสดงความคิดเห็น</i>";    
-
-                } else {
+                    $check = false;
                     while ($row = mysqli_fetch_array($resultComment, MYSQLI_ASSOC)) {
+                        $check = true;
+                        
                         ?>
 
                         <div class="card" style="padding-bottom:10px;">
@@ -141,9 +142,9 @@ $resultComment = mysqli_query($conn, $sqlComment);
                         <br>
                     <?php
                 }
-            }
-
-
+                if($check == false){
+                    echo    "<i>ยังไม่มีการแสดงความคิดเห็น</i>"; 
+                }
             ?>
             </div>
             <br>
