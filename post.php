@@ -18,7 +18,7 @@ $sql =  "SELECT post.id, post.title, post.content, post.post_date, category.name
 $result = mysqli_query($conn, $sql);
 $resp = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
-$sqlComment =  "SELECT comment.content, comment.post_date, user.name AS user_name FROM comment 
+$sqlComment =  "SELECT comment.content, comment.post_date, user.name AS user_name, user.gender AS user_gender FROM comment 
                 JOIN user ON user.id = comment.user_id
                 WHERE comment.post_id = '" . $postNumber . "'
                 ORDER BY post_date;";
@@ -127,7 +127,15 @@ $resultComment = mysqli_query($conn, $sqlComment);
                         <div class="card" style="padding-bottom:10px;">
                             <div class="row">
                                 <div class="col-3" style="text-align:center;">
-                                    <img style="margin:5px;" width="100" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">
+                                    <?php
+                                        if($row['user_gender'] == 'm'){
+                                            echo '<img style="margin:5px;" width="100" src="asset/boy.svg">';
+                                        }elseif($row['user_gender'] == 'f'){
+                                            echo '<img style="margin:5px;" width="100" src="asset/girl.svg">';
+                                        }else{
+                                            echo '<img style="margin:5px;" width="100" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">';
+                                        }
+                                    ?>
                                 </div>
                                 <div class="col-9">
                                     <div class="card-body">

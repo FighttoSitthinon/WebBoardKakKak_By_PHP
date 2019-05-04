@@ -15,13 +15,14 @@
         $pass = $_POST['password'];
         $msg = "";
 
-        $sql = "SELECT password, role FROM user WHERE login = '".$_POST['id']."' LIMIT 1";
+        $sql = "SELECT password, role, gender FROM user WHERE login = '".$_POST['id']."' LIMIT 1";
         $result = mysqli_query($conn, $sql);
         $resp = mysqli_fetch_array($result, MYSQLI_ASSOC);
 
         if($id =='admin' && $pass =='ad1234'){
             $msg = "ยินดีต้อนรับ ADMIN";
             $_SESSION["username"] = $id;
+            $_SESSION["gender"] = $resp['gender'];
             $_SESSION["role"] = "a";
             $_SESSION["id"] = session_id();
             unset($_SESSION['error']);
@@ -30,6 +31,7 @@
         }elseif($id =='member' && $pass =='mem1234'){
             $msg = "ยินดีต้อนรับ MEMBER";
             $_SESSION["username"] = $id;
+            $_SESSION["gender"] = $resp['gender'];
             $_SESSION["role"] = "m";
             $_SESSION["id"] = session_id();
             unset($_SESSION['error']);
@@ -38,6 +40,7 @@
         }elseif(isset($resp['password']) && isset($resp['role']) && $resp['password'] == $pass){
             $msg = "ยินดีต้อนรับ".$id;
             $_SESSION["username"] = $id;
+            $_SESSION["gender"] = $resp['gender'];
             $_SESSION["role"] = $resp['role'];
             $_SESSION["id"] = session_id();
             unset($_SESSION['error']);

@@ -1,9 +1,16 @@
 <?php
 
+$msg = [
+    0 => "ส่งข้อมูลเสร็จสิ้น",
+    1 => "เกิดข้อผิดพลาดในการส่งข้อมูล",
+    2 => "โปรดระบุข้อมูล",
+    3 => "กรุณาเข้าสู่ระบบ"
+];
 
 if ( isset($_POST['comment']) && isset($_POST['postNumber'])) {
     //echo $_GET['comment'];
     $event = comment($_POST['comment'], $_POST['postNumber']);
+    //echo $msg[$event];
 }
 
 function comment($comment, $post_id){

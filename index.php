@@ -14,6 +14,7 @@ if (isset($_POST['selected_cat']) && $_POST['selected_cat'] > 0) {
                 WHERE category.id = '{$_POST['selected_cat']}'
                 ORDER BY post.post_date DESC";
 }else{
+    //echo $_POST['selected_cat'];
     $sqlPost = "SELECT post.id, post.title, post.post_date, category.name AS cat_name, user.name AS user_name FROM post 
                 JOIN category ON post.cat_id = category.id 
                 JOIN user ON post.user_id = user.id
@@ -64,8 +65,16 @@ $resultPost = mysqli_query($conn, $sqlPost);
                         <div class="nav-item dropdown">
 
                             <?php
-                            if (isset($_SESSION['username'])) {
-                                echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>user: " . $_SESSION['username'];
+                            if (isset($_SESSION['username']) && isset($_SESSION['gender'])) {
+                                if($_SESSION['gender'] == 'm'){
+                                    echo "";
+                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/boy.svg'> user: " . $_SESSION['username'];
+                                }elseif($_SESSION['gender'] == 'f'){
+                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/girl.svg'> user: " . $_SESSION['username'];
+                                }else{
+                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'> user: " . $_SESSION['username'];
+                                }
+                                
                             }
                             ?>
                             </a>
@@ -104,7 +113,8 @@ $resultPost = mysqli_query($conn, $sqlPost);
                 <div class="col-4">
                     <form action="index.php" method="post" name="_selected_cat">
                         <select name="selected_cat" id="selected_cat" class="form-control" onchange="document._selected_cat.submit();">
-                            <option value="">--ทั้งหมด--</option>
+                            <option value="" selected disabled>--- ระบุหมวดหมู่ ---</option>
+                            <option value="0" >ทั้งหมด</option>
                             <?php
                             while ($row = mysqli_fetch_array($resultCat, MYSQLI_ASSOC)) {
                                 echo "<option value=" . $row['id'] . ">" . $row['name'] . "</option>";
@@ -116,7 +126,7 @@ $resultPost = mysqli_query($conn, $sqlPost);
                 <div class="col-6" style="text-align:right;">
                     <?php
                     if (isset($_SESSION['username'])) {
-                        echo "<p><button class='btn btn-success'><i class='fas fa-plus'></i><a style='color:white' href='newpost.php'>  สร้างกระทู้ใหม่</a></button></p>";
+                        echo "<a class='btn btn-success' style='color:white' href='newpost.php'><i class='fas fa-plus'></i>  สร้างกระทู้ใหม่</a>";
                     }
 
                     ?>
@@ -136,8 +146,8 @@ $resultPost = mysqli_query($conn, $sqlPost);
                         if (isset($_SESSION['role']) && $_SESSION['role'] == 'a') {
                             while ($row = mysqli_fetch_array($resultPost, MYSQLI_ASSOC)) {
                                 //Admin and permission delete post
-                                echo    "<tr><td>[ " . $row['cat_name'] . " ]&nbsp&nbsp <a href='post.php?postNumber={$row['id']}'> " . $row['title'] . "</a><br> " . $row['user_name'] . " - " . $row['post_date'] . "</td> <td>
-                                        <a href='#' data-href='delete.php?postNumber={$row['id']}' data-toggle='modal' data-target='#confirm-delete'><i class='fas fa-trash-alt' style='color:red'></i> </a></td></tr>";
+                                echo    "<tr><td>[ " . $row['cat_name'] . " ]&nbsp&nbsp <a href='post.php?postNumber={$row['id']}'> " . $row['title'] . "</a><br> " . $row['user_name'] . " - " . $row['post_date'] . "</td> 
+                                        <td style='text-align:right; padding-right:4%;'><a class='btn btn-danger' href='#' data-href='delete.php?postNumber={$row['id']}' data-toggle='modal' data-target='#confirm-delete'><i class='fas fa-trash-alt' ></i>&nbsp Delete</a></td></tr>";
                                 ?>
                                 <!--Delete Modal-->
                                 <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
