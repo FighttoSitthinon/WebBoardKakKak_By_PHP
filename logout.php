@@ -1,19 +1,16 @@
 <?php
     session_start();
-    /*echo '01: '.session_id().'<br>';
-    echo '02: '.(isset($_SESSION['id'])==1? $_SESSION['id']: 0).'<br>';*/
+
     if(isset($_SESSION['id']) && $_SESSION['id']==session_id()){
        // echo "case 01";
         session_unset();
         session_destroy();
-        header("refresh: 1; url=index.php");
+        header("refresh: 0.5; url=index.php");
     }else{
         //echo "case 02";
         header('Location: login.php');
         die();
     }
-    /*echo '01: '.isset($_SESSION['id']).'<br>';
-    echo '02: '.($_SESSION['id']==session_id()? 1 : 0).'<br>';*/
 ?>
 <!DOCTYPE html>
 <html lang="en">

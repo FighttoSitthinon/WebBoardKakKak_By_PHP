@@ -19,16 +19,16 @@ function newpost($title, $content, $category ){
 
             $result = mysqli_query($conn, $sql);
             if($result){
-                $event = 0; // Success
+                $event = 'p_s00'; // Success
             }else{
                 echo mysqli_error($conn);
-                $event = 1; // Error
+                $event = 'p_e01'; // Error
             }
         }else{
-            $event = 2; // Error
+            $event = 'p_e02'; // Error
         }
     }else{
-        $event = 3; // Error
+        $event = 'p_e03'; // Error
     }
     return $event;
 }

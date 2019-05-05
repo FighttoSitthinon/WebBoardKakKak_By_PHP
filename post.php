@@ -64,16 +64,22 @@ $resultComment = mysqli_query($conn, $sqlComment);
                 </ul>
                 <ul class="navbar-nav">
                     <div class="nav-item dropdown">
-                        <?php
-                        if (isset($_SESSION['username'])) {
-                            echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>user: " . $_SESSION['username'];
-                        }
-                        ?>
-                        </a>
+                    <?php
+                            if (isset($_SESSION['username']) && isset($_SESSION['gender'])) {
+                                if($_SESSION['gender'] == 'm'){
+                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/boy.svg'> user: " . $_SESSION['username']."</a>";
+                                }elseif($_SESSION['gender'] == 'f'){
+                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/girl.svg'> user: " . $_SESSION['username']."</a>";
+                                }else{
+                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'> user: " . $_SESSION['username']."</a>";
+                                }
+                                
+                            }
+                            ?>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <?php
                             if (isset($_SESSION["id"])) {
-                                echo "<a class='nav-link' href='logout.php'>  <i class='fas fa-power-off' ></i>  ออกจากระบบ</a>";
+                                echo "<a class='nav-link' href='logout.php' style='text-align:center;'>  <i class='fas fa-power-off' ></i>  ออกจากระบบ</a>";
                             }
                             ?>
                         </div>
@@ -118,41 +124,41 @@ $resultComment = mysqli_query($conn, $sqlComment);
             <br>
             <div style="margin-left:15%;margin-right:15%;">
                 <?php
-                    $check = false;
-                    while ($row = mysqli_fetch_array($resultComment, MYSQLI_ASSOC)) {
-                        $check = true;
-                        
-                        ?>
+                $check = false;
+                while ($row = mysqli_fetch_array($resultComment, MYSQLI_ASSOC)) {
+                    $check = true;
 
-                        <div class="card" style="padding-bottom:10px;">
-                            <div class="row">
-                                <div class="col-3" style="text-align:center;">
-                                    <?php
-                                        if($row['user_gender'] == 'm'){
-                                            echo '<img style="margin:5px;" width="100" src="asset/boy.svg">';
-                                        }elseif($row['user_gender'] == 'f'){
-                                            echo '<img style="margin:5px;" width="100" src="asset/girl.svg">';
-                                        }else{
-                                            echo '<img style="margin:5px;" width="100" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">';
-                                        }
-                                    ?>
-                                </div>
-                                <div class="col-9">
-                                    <div class="card-body">
-                                        <strong class="card-title"><?php echo $row['user_name'] ?> </strong>
-                                        <p class="card-text"><?php echo $row['content']; ?></p>
-                                        <i style="font-size: 15px"><?php echo "ความคิดเห็นเมื่อ : " . $row['post_date'] ?></i>
-                                    </div>
+                    ?>
+
+                    <div class="card" style="padding-bottom:10px;">
+                        <div class="row">
+                            <div class="col-3" style="text-align:center;">
+                                <?php
+                                if ($row['user_gender'] == 'm') {
+                                    echo '<img style="margin:5px;" width="100" src="asset/boy.svg">';
+                                } elseif ($row['user_gender'] == 'f') {
+                                    echo '<img style="margin:5px;" width="100" src="asset/girl.svg">';
+                                } else {
+                                    echo '<img style="margin:5px;" width="100" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png">';
+                                }
+                                ?>
+                            </div>
+                            <div class="col-9">
+                                <div class="card-body">
+                                    <strong class="card-title"><?php echo $row['user_name'] ?> </strong>
+                                    <p class="card-text"><?php echo $row['content']; ?></p>
+                                    <i style="font-size: 15px"><?php echo "ความคิดเห็นเมื่อ : " . $row['post_date'] ?></i>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <br>
-                    <?php
-                }
-                if($check == false){
-                    echo    "<i>ยังไม่มีการแสดงความคิดเห็น</i>"; 
-                }
+                    <br>
+                <?php
+            }
+            if ($check == false) {
+                echo    "<i>ยังไม่มีการแสดงความคิดเห็น</i>";
+            }
             ?>
             </div>
             <br>

@@ -67,21 +67,19 @@ $resultPost = mysqli_query($conn, $sqlPost);
                             <?php
                             if (isset($_SESSION['username']) && isset($_SESSION['gender'])) {
                                 if($_SESSION['gender'] == 'm'){
-                                    echo "";
-                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/boy.svg'> user: " . $_SESSION['username'];
+                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/boy.svg'> user: " . $_SESSION['username']."</a>";
                                 }elseif($_SESSION['gender'] == 'f'){
-                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/girl.svg'> user: " . $_SESSION['username'];
+                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/girl.svg'> user: " . $_SESSION['username']."</a>";
                                 }else{
-                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'> user: " . $_SESSION['username'];
+                                    echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'> user: " . $_SESSION['username']."</a>";
                                 }
                                 
                             }
                             ?>
-                            </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                 <?php
                                 if (isset($_SESSION["id"])) {
-                                    echo "<a class='nav-link' href='logout.php'>  <i class='fas fa-power-off' ></i>  ออกจากระบบ</a>";
+                                    echo "<a class='nav-link' href='logout.php' style='text-align:center;'>  <i class='fas fa-power-off' ></i>  ออกจากระบบ</a>";
                                 }
                                 ?>
                             </div>

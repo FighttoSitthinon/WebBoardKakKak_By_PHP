@@ -1,7 +1,7 @@
 <?php
 session_start();
-
 include 'register_save.php';
+include 'action_msg.php';
 
 if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
     header('Location: index.php');
@@ -9,15 +9,9 @@ if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
 }
 
 $event = null;
-$msg = [
-    0 => "สมัครผู้ใช้งานใหม่เสร็จสิ้น",
-    1 => "เกิดข้อผิดพลาดในการสมัคร",
-    2 => "ชื่อผู้ใช้นี้มีผู้ใช้งานแล้ว",
-    3 => "โปรดกรอกข้อมูลให้ครบถ้วน"
-];
 
-if (isset($_POST['name']) && isset($_POST['username'])  && isset($_POST['password'])  && isset($_POST['email'])) {
-    $event = register($_POST['username'], $_POST['password'], $_POST['name'], $_POST['gender'], $_POST['email']);
+if (isset($_POST['name']) && isset($_POST['username'])  && isset($_POST['password1'])  &&isset($_POST['password2'])  && isset($_POST['email'])) {
+    $event = register($_POST['username'], $_POST['password1'], $_POST['password2'], $_POST['name'], $_POST['gender'], $_POST['email']);
 }
 
 ?>
@@ -66,7 +60,7 @@ if (isset($_POST['name']) && isset($_POST['username'])  && isset($_POST['passwor
         <hr>
         <?php
         if (isset($event)) {
-            if ($event == 0) {
+            if ($event == 'r_s00') {
                 echo "<div class='alert alert-success alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>สำเร็จ!</strong> " . $msg[$event] . "</div>";
             } else {
                 echo "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>เกิดข้อผิดพลาด!</strong> " . $msg[$event] . "</div>";
@@ -87,7 +81,13 @@ if (isset($_POST['name']) && isset($_POST['username'])  && isset($_POST['passwor
                         <div class="row">
                             <div class="col-md-4">Password</div>
                             <div class="col-md-8">
-                                <input type="password" class="form-control" name="password" id="password">
+                                <input type="password" class="form-control" name="password1" id="password1">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">Confirm Password</div>
+                            <div class="col-md-8">
+                                <input type="password" class="form-control" name="password2" id="password2">
                             </div>
                         </div>
                         <div class="row">

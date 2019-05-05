@@ -1,11 +1,5 @@
 <?php
-
-$msg = [
-    0 => "ส่งข้อมูลเสร็จสิ้น",
-    1 => "เกิดข้อผิดพลาดในการส่งข้อมูล",
-    2 => "โปรดระบุข้อมูล",
-    3 => "กรุณาเข้าสู่ระบบ"
-];
+include 'action_msg.php';
 
 if ( isset($_POST['comment']) && isset($_POST['postNumber'])) {
     //echo $_GET['comment'];
@@ -35,18 +29,18 @@ function comment($comment, $post_id){
             $result = mysqli_query($conn, $sql);
 
             if($result){
-                $event = 0; // Success
+                $event = 'c_s00'; // Success
                 header('Location: post.php?postNumber='.$_POST['postNumber']);
                 die();
             }else{
                 echo mysqli_error($conn);
-                $event = 1; // Error
+                $event = 'c_e01'; // Error
             }
         }else{
-            $event = 2; // Error
+            $event = 'c_e02'; // Error
         }
     }else{
-        $event = 3; // Error
+        $event = 'c_e03'; // Error
     }
     return $event;
 }

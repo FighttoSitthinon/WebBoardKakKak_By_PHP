@@ -2,6 +2,7 @@
 session_start();
 include 'newpost_save.php';
 include 'connect.php';
+include 'action_msg.php';
 
 if (!isset($_SESSION['id']) && $_SESSION['id'] != session_id()) {
     header('Location: login.php');
@@ -9,11 +10,6 @@ if (!isset($_SESSION['id']) && $_SESSION['id'] != session_id()) {
 }
 
 $event = null;
-$msg = [
-    1 => "เกิดข้อผิดพลาดบางอย่างระหว่างส่งข้อมูล",
-    2 => "กรุณากรอกข้อมูลให้ครบถ้วน",
-    3 => "กรุณาทำการเข้าสู่ระบบก่อนส่งข้อมูล"
-];
 
 $sqlCat = "SELECT * FROM category";
 $resultCat = mysqli_query($conn, $sqlCat);
@@ -60,15 +56,20 @@ if (isset($_POST['title']) && isset($_POST['content']) && isset($_POST['category
                     <div class="nav-item dropdown">
 
                         <?php
-                        if (isset($_SESSION['username'])) {
-                            echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>user: " . $_SESSION['username'];
+                        if (isset($_SESSION['username']) && isset($_SESSION['gender'])) {
+                            if ($_SESSION['gender'] == 'm') {
+                                echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/boy.svg'> user: " . $_SESSION['username'] . "</a>";
+                            } elseif ($_SESSION['gender'] == 'f') {
+                                echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='asset/girl.svg'> user: " . $_SESSION['username'] . "</a>";
+                            } else {
+                                echo "<a class='nav-link dropdown-toggle' href='http://example.com' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'><img style='margin:5px;' width='30' src='https://ssl.gstatic.com/accounts/ui/avatar_2x.png'> user: " . $_SESSION['username'] . "</a>";
+                            }
                         }
                         ?>
-                        </a>
                         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <?php
                             if (isset($_SESSION["id"])) {
-                                echo "<a class='nav-link' href='logout.php'>  <i class='fas fa-power-off' ></i>  ออกจากระบบ</a>";
+                                echo "<a class='nav-link' href='logout.php' style='text-align:center;'>  <i class='fas fa-power-off' ></i>  ออกจากระบบ</a>";
                             }
                             ?>
                         </div>
@@ -87,11 +88,10 @@ if (isset($_POST['title']) && isset($_POST['content']) && isset($_POST['category
         <div class="center">
             <?php
             if (isset($event)) {
-                if ($event == 0) {
+                if ($event == 'p_s00') {
                     //success
                     header('Location: index.php');
                     die();
-                    echo 'Hi';
                 } else {
                     //error
                     echo "<div class='alert alert-danger alert-dismissible fade show'><button type='button' class='close' data-dismiss='alert'>&times;</button><strong>เกิดข้อผิดพลาด!</strong> " . $msg[$event] . "</div>";

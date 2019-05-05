@@ -1,8 +1,17 @@
 <?php
 session_start();
+include 'verify.php';
+include 'action_msg.php';
+
+$event = null;
+
 if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
     header('Location: index.php');
     die();
+}
+
+if(isset( $_POST['id']) && isset($_POST['password'])){
+    $event = verify($_POST['id'], $_POST['password']);
 }
 
 ?>
@@ -47,14 +56,14 @@ if (isset($_SESSION['id']) && $_SESSION['id'] == session_id()) {
                 <div class="col-4"></div>
                 <div class="col-4">
                     <?php
-                    if (isset($_SESSION['error'])) {
-                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$_SESSION['error'].'</div>';
+                    if (isset($event)) {
+                        echo '<div class="alert alert-danger alert-dismissible fade show" role="alert"><button type="button" class="close" data-dismiss="alert">&times;</button>'.$msg[$event].'</div>';
                     }
                     ?>
                     <div class="card border-info" style="max-width: 30rem;">
                         <div class="card-body">
                             <h2 class="card-header"> Login</h2>
-                            <form action="verify.php" method="post">
+                            <form action="login.php" method="post">
                                 <div class="row">
                                     <label class="col-md-4" for="id">Username</label>
                                     <div class="col-md-8">
