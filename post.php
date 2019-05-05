@@ -207,5 +207,15 @@ $resultComment = mysqli_query($conn, $sqlComment);
             <p><a href="index.php" class="btn btn-outline-secondary ">กลับหน้าหลัก</a></p>
         </div>
 </body>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
 
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">Create by Sitthinon Chanaritthichai : 
+    <a target="_blank" href="https://github.com/FighttoSitthinon/WebBoardKakKak_By_PHP">@Github</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
 </html>

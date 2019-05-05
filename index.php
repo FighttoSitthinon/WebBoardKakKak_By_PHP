@@ -193,6 +193,19 @@ $resultPost = mysqli_query($conn, $sqlPost);
         </div>
     </div>
 </body>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">Create by Sitthinon Chanaritthichai : 
+    <a target="_blank" href="https://github.com/FighttoSitthinon/WebBoardKakKak_By_PHP">@Github</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
+
+
 <script>
     $('#confirm-delete').on('show.bs.modal', function(e) {
         $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));

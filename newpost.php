@@ -142,5 +142,15 @@ if (isset($_POST['title']) && isset($_POST['content']) && isset($_POST['category
     </div>
 
 </body>
+<!-- Footer -->
+<footer class="page-footer font-small blue">
 
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">Create by Sitthinon Chanaritthichai : 
+    <a target="_blank" href="https://github.com/FighttoSitthinon/WebBoardKakKak_By_PHP">@Github</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+<!-- Footer -->
 </html>
