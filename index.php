@@ -108,7 +108,7 @@ $resultPost = mysqli_query($conn, $sqlPost);
         <div class="container">
             <div class="row">
                 <div class="col-2">หมวดหมู่: </div>
-                <div class="col-4">
+                <div class="col-3">
                     <form action="index.php" method="post" name="_selected_cat">
                         <select name="selected_cat" id="selected_cat" class="form-control" onchange="document._selected_cat.submit();">
                             <option value="" selected disabled>--- ระบุหมวดหมู่ ---</option>
@@ -121,12 +121,18 @@ $resultPost = mysqli_query($conn, $sqlPost);
                         </select>
                     </form>
                 </div>
-                <div class="col-6" style="text-align:right;">
+                <div class="col-3" >
+                <?php
+                    if (isset($_SESSION['role']) && $_SESSION['role'] == 'a') {
+                        echo "<a class='btn btn-info' style='color:white' href='master_data.php'><i class='fas fa-plus'></i>  เพิ่มหมวดหมู่</a>";
+                    }
+                    ?>
+                </div>
+                <div class="col-4" style="text-align:right;">
                     <?php
                     if (isset($_SESSION['username'])) {
                         echo "<a class='btn btn-success' style='color:white' href='newpost.php'><i class='fas fa-plus'></i>  สร้างกระทู้ใหม่</a>";
                     }
-
                     ?>
                 </div>
             </div>
